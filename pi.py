@@ -6,7 +6,6 @@ from datetime import date, time, datetime
 
 GPIO.setmode(GPIO.BCM)
 GPIO.setup(25, GPIO.OUT)
-GPIO.setup(24, GPIO.IN)
 sound = ['voice1.mp3', 'voice2.mp3', 'voice3.mp3']
 itterassyai = ['voice4.mp3', 'voice5.mp3']
 
@@ -32,7 +31,7 @@ class Itterassyai:
 
 while True:
     try: 
-        if GPIO.input(24) == GPIO.HIGH:
+        if GPIO.input(25) == GPIO.HIGH:
             pass
         else:
             if hour == '06' or '07':
