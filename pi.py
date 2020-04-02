@@ -19,7 +19,7 @@ class Okaeri:
     def ran(self):
         choice = random.choice(sound)
         voice(choice)
-        sleep(5.0)
+        sleep(10.0)
 
 class Itterassyai:
     def __init__(self, random):
