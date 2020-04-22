@@ -57,13 +57,24 @@ class Input_text:
         self.input_text = input_text
 
 
-@route('/pi')
+@route('/pi', text='')
+def pi():
+    return template('alrame', text='')
+
+
+@route('/pi', method='POST')
 def pi():
     text = '起動中'
+    input_text = request.forms.input_text
     while True:
         try:
             if GPIO.input(25) == GPIO.HIGH:
-                pass
+                if now == input_text:
+                    while GPIO.input(25) == GPIO.HIGH:
+                        Alram(random).ran()
+                else:
+                    pass
+
             else:
                 if hour == '07':
                     oha = Itterassyai(random)
@@ -73,25 +84,7 @@ def pi():
                     ran_cho.ran()
         except KeyboardInterrupt:
             pass
-        return template('pi', text=text)
-
-
-@route('/pi/alram')
-def alram():
-    return template('alram', text='')
-
-
-@route('/pi/alram', method='POST')
-def do_alram():
-    input_text = request.forms.input_text
-    in_text = Input_text(input_text)
-    input_text = in_text
-    print(input_text)
-    if now == input_text:
-        while GPIO.input(25) == GPIO.HIGH:
-            Alram(random).ran()
-
-    return template('alram', text=input_text)
+        return template('alram', text=text, input_text=input_text)
 
 
 run(host='localhost', port=8080, debug=True)
