@@ -1,9 +1,10 @@
 from bottle import route, run, template, request
 import RPi.GPIO as GPIO
 from time import sleep
-from pi_voice import voice
+from voice import voice
 import random
-from datetime import date, time, datetime
+from datetime import datetime
+
 
 GPIO.setmode(GPIO.BCM)
 GPIO.setup(25, GPIO.OUT)
@@ -49,53 +50,45 @@ class Input_text:
 
     def __init__(self, input_text):
         self.input_text = input_text
-    
+
     def go(self):
-        input_text = request.forms.input_text
+        request.forms.input_text
         print()
 
 
-@route('/pi', text='')
-def pi():
-    return template('alram', text='')
-
-
-@route('/pi', method='POST')
 def pi():
     while True:
         time_zone = datetime.now()
         str_date = str(time_zone)
         hour = str_date[8:-13]
-        minute = str_date[14:-10]
         now = str_date[11:-10]
         try:
             if GPIO.input(25) == GPIO.HIGH:
                 input_text = request.forms.input_text
                 while GPIO.input(25) == GPIO.HIGH:
+
                     if input_text == now:
                         alram = Alram(morning)
                         alram.ran()
                         time_zone = datetime.now()
                         str_date = str(time_zone)
-                        hour = str_date[8:-13]
-                        minute = str_date[14:-10]
                         now = str_date[11:-10]
+
                 input_text = ''
-                
+
             else:
+
                 if hour == '07':
                     oha = Itterassyai(random)
                     oha.ran()
-                    
+
                 else:
                     ran_cho = Okaeri(random)
                     ran_cho.ran()
 
         except KeyboardInterrupt:
             pass
-        return template('alram', text=input_text)
 
 
-run(host='localhost', port=8080, debug=True)
-
+pi()
 GPIO.cleanup()
