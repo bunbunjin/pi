@@ -11,7 +11,7 @@ GPIO.setup(25, GPIO.OUT)
 sound = ['voice1.mp3', 'voice2.mp3', 'voice3.mp3']
 itterassyai = ['voice4.mp3', 'voice5.mp3']
 morning = ['voice9.mp3', 'voice10.mp3', 'voice11.mp3', 'voice12.mp3']
-
+dorakue = ['voice13.mp3']
 
 class Okaeri:
 
@@ -64,15 +64,12 @@ def pi():
         now = str_date[11:-10]
         try:
             if GPIO.input(25) == GPIO.HIGH:
-                input_text = request.forms.input_text
                 while GPIO.input(25) == GPIO.HIGH:
-
-                    if input_text == now:
-                        alram = Alram(morning)
-                        alram.ran()
-                        time_zone = datetime.now()
-                        str_date = str(time_zone)
-                        now = str_date[11:-10]
+                    alram = Alram(morning)
+                    alram.ran()
+                    time_zone = datetime.now()
+                    str_date = str(time_zone)
+                    now = str_date[11:-10]
 
                 input_text = ''
 
@@ -82,6 +79,9 @@ def pi():
                     oha = Itterassyai(random)
                     oha.ran()
 
+                if hour != '07':
+                    dorakue_sound = voice(dorakue)
+                    sleep(10)
                 else:
                     ran_cho = Okaeri(random)
                     ran_cho.ran()
